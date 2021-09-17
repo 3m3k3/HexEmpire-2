@@ -12,6 +12,7 @@ using UnityEditor;
 public class HexGridManager : MonoBehaviour
 {
    
+    public MapGenerator mapGenerator = new MapGenerator();
     public HexCell hexCellSource;
     public int rowCount = 11;
     public int columnCount = 20;
@@ -19,7 +20,7 @@ public class HexGridManager : MonoBehaviour
     private int countCell = 0;
     
     public List<HexCell> cells = new List<HexCell>();
-    private List<int> mapGrid = new List<int>();
+    private List<float> mapGrid = new List<float>();
     public Dictionary<int, List<HexCell>> mapCells = new Dictionary<int, List<HexCell>>();
     
     
@@ -39,9 +40,10 @@ public class HexGridManager : MonoBehaviour
     }
 
     public void Build() {
+        write(mapGenerator.getTiles(rowCount,columnCount));    
         Clear();
-        //var sNumbers = "4,4,1,4,4,3,3,3,3,3,3,4,4,2,3,3,3,2,4,1,4,3,4,1,4,4,2,3,3,3,4,4,4,4,4,4,4,4,0,4,4,4,2,4,2,1,4,3,4,2,1,4,4,4,4,1,4,4,4,4,1,4,2,3,2,4,4,4,4,4,4,4,4,4,3,2,3,3,3,3,4,4,3,3,2,1,4,4,4,4,4,4,1,2,4,3,4,4,4,4,1,4,2,3,2,4,4,1,4,4,4,4,4,4,4,3,4,1,4,4,4,4,4,3,4,1,4,4,4,1,4,4,4,2,3,4,1,4,3,4,4,4,4,3,3,4,4,4,4,4,4,4,4,3,3,2,4,4,4,3,4,4,0,4,4,4,4,3,3,4,4,1,4,2,3,3,3,4,4,4,4,4,4,4,4,4,4,3,4,4,4,4,4,4,4,3,3,2,0,4,1,4,4,3,3,4,4,4,4,4,4,4,1,4,2,3,3,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,3,3,3,4";
-        this.mapGrid = read().Split(',').Select(int.Parse).ToList();
+        string[] t= read().Split('#');
+        this.mapGrid = t.Select(float.Parse).ToList();
         
         if (hexCellSource == null) {
             Debug.LogError("C'mon you forget to provide the hex cell source");
@@ -122,6 +124,7 @@ public class HexGridManager : MonoBehaviour
             {
                 result += temp.GetString(b);  
             }
+            Debug.LogError(result);
             return result;  
         }
      }

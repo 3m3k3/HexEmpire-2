@@ -7,44 +7,46 @@ using System.Collections.Generic;
 public class MapGenerator : MonoBehaviour
 {
 
+
     public Noise.NormalizeMode normalizeMode;
 
     public int mapHeight = 20;
     public int mapWidth = 10;
     [Range(0,10)]
-    public float noiseScale;
+    private float noiseScale = 7.6f;
 
-    public int octaves;
-    [Range(0, 1)]
-    public float persistance;
+    private int octaves = 50;
+    private float persistance = 0.57f;
 
     public int seed;
 
     public bool autoUpdate;
 
 
-
-    Queue<MapThreadInfo<MapData>> mapDataThreadInfoQueue = new Queue<MapThreadInfo<MapData>>();
-    Queue<MapThreadInfo<MeshData>> meshDataThreadInfoQueue = new Queue<MapThreadInfo<MeshData>>();
-
-    
-
     public void DrawMapInEditor()
     {
-        MapData mapData = GenerateMapData(Vector2.zero);
+        MapData mapData = GenerateMapData();
         MapDisplay display = FindObjectOfType<MapDisplay>();
         display.DrawTexture(TextureGenerator.TextureFromHeightMap(mapData.heightMap));
         
     }
 
-    
-
-    
-
-
-    MapData GenerateMapData(Vector2 center)
+    public String getTiles(int mapWidth, int mapHeight) {
+        string result = "";
+        float[,] noiseMap = Noise.GenerateNoiseMap(mapWidth, mapHeight, seed, noiseScale, octaves, persistance, normalizeMode);
+        for (int y = 0; y < mapHeight; y++)
+        {
+            for (int x = 0; x < mapWidth; x++)
+            {
+                
+                result += noiseMap[x, y] + "#";
+            }
+        }
+        return result.Remove(result.Length-1);
+    }
+    MapData GenerateMapData()
     {
-        float[,] noiseMap = Noise.GenerateNoiseMap(mapWidth, mapHeight, seed, noiseScale, octaves, persistance, center, normalizeMode);
+        float[,] noiseMap = Noise.GenerateNoiseMap(mapWidth, mapHeight, seed, noiseScale, octaves, persistance, normalizeMode);
 
         Color[] colourMap = new Color[mapWidth * mapHeight];
         for (int y = 0; y < mapHeight; y++)
@@ -58,20 +60,9 @@ public class MapGenerator : MonoBehaviour
         }
         return new MapData(noiseMap, colourMap);
     }
+}
 
  
-    struct MapThreadInfo<T>
-    {
-        public readonly Action<T> callback;
-        public readonly T parameter;
-
-        public MapThreadInfo(Action<T> callback, T parameter)
-        {
-            this.callback = callback;
-            this.parameter = parameter;
-        }
-    }
-}
 
 
 public struct MapData

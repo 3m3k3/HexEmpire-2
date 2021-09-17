@@ -23,8 +23,11 @@ public class HexCell : MonoBehaviour
         Sand
     } 
     public int id;
-    public void init (int nature, int id) {
-       Test();
+    public void init (float nature2, int id) {
+        Debug.LogError(nature2);
+       //Test();
+       int nature = (int) (nature2 * 1000) % 5;
+       Debug.LogError(nature);
         switch (nature)
         {
             case 0 : 
