@@ -1,45 +1,86 @@
 using UnityEngine;
+
 using System.Collections.Generic;
 using System.Linq;
 
  abstract public class IHexCell : MonoBehaviour {
 
 
-    private GameWorld world;
+    private GameWorld World;
 
-    public Army army;
+    public Army army = null;
     private SpriteRenderer spriteRenderer;
     public int id;
-    public Player owner = null;
+  
+    public Player PlayerController = null;
+    bool isDisplayArmyScore;
 
     public HashSet<int> neighbours;
-    public void ownIt(Player newOwner) {
-        owner = newOwner;
+    public void ownIt(Army newArmyOwner) {
+        if(newArmyOwner != null) {           
+            army = newArmyOwner;
+        } else {
+            Debug.LogError("army is null " + id);
+            army = null;
+        }
     }
 
-
+    private void Awake() {
+        army = null;
+    }
     void Start()
     {
         spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
     }
-    
+
+    public void leaveCell() {
+        army.Cell = null;
+        army = null;
+
+    }
+
     public void changeSprite(Sprite newSprite) {
         spriteRenderer.sprite = newSprite; 
     }
     private void OnMouseDown() {
-        Debug.Log("clik on " +id);
-        world.cellClik(id);    
+        Debug.Log("clik on " +id + " - infos : " + getInfos());
+        World.cellClik(id);    
     }
 
-    
+    public string getInfos() {
+        string res = "army : ";
+        if(army != null) {
+            res += army.getInfos();
+        } else {
+            res += "null";
+        }
+        return res;
+    }
 
+    private void OnMouseOver() {        
+        if(army != null) {
+            World.DisplayStatArmy(id);
+        } else {
+               
+        }
+    }
+
+    private void OnMouseExit() {
+        if(army != null) {
+            World.UnDisplayStatArmy();
+        }
+    }
+ 
     public List<GameObject> objects; 
     public void destroy() {
         DestroyImmediate(gameObject);
     }
 
     public void init(int intId, GameWorld world, int x, int y) {
-        this.world = world;
+         if(world == null) {
+            Debug.LogWarning("world is nul");
+        }
+        this.World = world;
         this.id = intId;
         calculNeighbours(x,y);
         for (int i = 0; i < objects.Count; i++)

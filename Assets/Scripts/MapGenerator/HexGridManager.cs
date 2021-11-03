@@ -72,7 +72,6 @@ public class HexGridManager : MonoBehaviour
         if( tileNature ==  ((int)Nature.Port) ) {
             return Instantiate(hexPortSource, position, Quaternion.identity);
         }
-        //Debug.Log(tileNature);
         if(tileNature < DEEP_WATER_LEVEL) {
             return Instantiate(hexDeepSeaSource, position, Quaternion.identity);
         } else if (tileNature < WATER_LEVEL) {
@@ -107,7 +106,6 @@ public class HexGridManager : MonoBehaviour
                 }
                 tmp = new Vector3(0,firstCell.y,0);
             }
-         // updateMapGrid();
         }
     }
 

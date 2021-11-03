@@ -55,7 +55,7 @@ public class MapGenerator : MonoBehaviour
         return indiceListTerrain;
     }
     public List<int> addCitiesIndice(List<int> indiceListTerrain,  int x, int y) {
-        int cities = (x*y)/20;
+        int cities = (x*y)/5;
         bool found = false;
         int numberTry = 0;
         List<int> citiesList = new List<int>();

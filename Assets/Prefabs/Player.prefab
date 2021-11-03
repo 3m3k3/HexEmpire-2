@@ -43,8 +43,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17d844c448fedc44aae47cf8992892be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  armies:
-  - {fileID: -3639650757226811722, guid: 0ec26e7b063fd9e4b8183b0be6198fb5, type: 3}
+  armies: []
   Name: 
   ArmySource: {fileID: -3639650757226811722, guid: 0ec26e7b063fd9e4b8183b0be6198fb5, type: 3}
   Color: {r: 0.21960786, g: 0.21960786, b: 0.21960786, a: 0}

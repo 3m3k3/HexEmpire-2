@@ -11,7 +11,8 @@ public class SelectTroopsState : State {
         
         if(highLight) {
            // Debug.Log("cell already lighted");           
-            if(highLightCells.Contains(idCell)) {
+            if(highLightCells.Contains(idCell)) {  
+                Debug.Log("contains " +idCell);              
                 State moveState = new MoveState();
                 ((MoveState)moveState).previousTarget = previousTarget;
                 GameWorld.SetState( moveState, idCell);
